@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: devopstask
+  name: devopstask
+  namespace: devopstask
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devopstask
+  template:
+    metadata:
+      labels:
+        app: devopstask
+    spec:
+      containers:
+      - image: suleyman888/devopstask
+        imagePullPolicy: Always
+        name: devopstask
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /mnt
+          name: devopstask-persistent-storage
+      volumes:
+      - name: devopstask-persistent-storage
+        persistentVolumeClaim:
+          claimName: devopstask-pv-claim

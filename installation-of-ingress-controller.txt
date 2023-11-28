@@ -1,0 +1,16 @@
+To access service outside of cluster,we need Ingress,but Ingress is accesible through Ingress Controller.Need to deploy Ingress Controller,after it we can configure our Ingress!
+
+
+1)sudo yum install openssl
+
+2)install helm:
+
+2.1) curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh 
+
+2.2) chmod 700 get_helm.sh 
+
+2.3) ./get_helm.sh
+
+3)install Ingress Controller:
+3.1)helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+3.2)helm upgrade --install ingress-nginx https://kubernetes.github.io/ingress-nginx -n ingress-nginx
