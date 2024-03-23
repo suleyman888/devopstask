@@ -1,0 +1,34 @@
+---
+- name: Deploy Dockerized Web Application
+  hosts: remote_server
+  become: yes
+  vars:
+    nginx_config_file: /etc/nginx/nginx.conf
+  tasks:
+    - name: Copy nginx configuration template
+      template:
+        src: nginx.conf.j2
+        dest: "{{ nginx_config_file }}"
+      notify: Restart Nginx
+
+    - name: Ensure Docker Compose is installed
+      become: yes
+      package:
+        name: docker-compose
+        state: present
+
+    - name: Copy docker-compose.yml
+      copy:
+        src: docker-compose.yml
+        dest: /path/to/docker-compose.yml
+
+    - name: Start Docker containers
+      command: docker-compose up -d
+      args:
+        chdir: /path/to/docker-compose.yml
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
